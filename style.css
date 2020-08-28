@@ -1,0 +1,38 @@
+body {
+	font: 14px "Century Gothic", Futura, sans-serif;
+	margin: 20px;
+}
+
+ol, ul {
+	padding-left: 30px;
+}
+
+.ticTacToe {
+	position: absolute;
+	top: 10%;
+	left: 40%;
+}
+
+.board_row:after {
+	clear: both;
+	content: "";
+	display: table;
+}
+
+.square {
+	background: #fff;
+	border: 2px solid black;
+	float: left;
+	font-size: 36px;
+	line-height: 80px;
+	margin-right: -1px;
+	margin-top: -1px;
+	text-align: center;
+	color:black;
+	width: 80px;
+	height: 80px;
+}
+
+.square:focus {
+	outline: none;
+}
