@@ -38,7 +38,7 @@ ol, ul {
 	outline: none;
 }
 
-button {
+.makeMove {
 	border:none;
 	padding: 0px;
 }

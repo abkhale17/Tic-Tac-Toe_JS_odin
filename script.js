@@ -1,5 +1,9 @@
 "use strict"
 
+var startGame = document.getElementById("startGame");
+var resetGame = document.getElementById("resetGame");
+var playBtns = document.querySelectorAll(".makeMove")
+
 const gameBoard = (() => {
 	// private var
 	var _board = {
@@ -14,8 +18,7 @@ const Players = (name, mark) => {
 	return {getName, getMark}
 }
 
-const playerX = Players('jim', 'X');
-const playerO = Players('stu', 'O');
+var playerX, playerO;
 
 const checkResult = (board) => {
 	let winningCombinations = [
@@ -31,72 +34,105 @@ const checkResult = (board) => {
 		if(board[a[0]] && board[a[0]] === board[a[1]]  && board[a[1]] === board[a[2]]){
 			return true; //Somebody Won Game
 		}
+	}
 
-		if(!board.includes(null)){
+	if(!board.includes(null)){
 			return "DRAW"
-		}
 	}
 }
 
-
-const clearBoard = () => {
-
-	let sqrs = document.querySelectorAll(".square")
-
-	sqrs.forEach((sqr) => {
-		sqr.textContent = "";
-	})
-}
-
 const displayController = (() => {
-
 	let _moveCounter = 0;
 	const board = gameBoard._board; // inherit gameboard
 
-	const counterFunc = () => {
+	const clearBoard = () => {
 
-		return (moveElem) => {
+		_moveCounter = 0;
+		board.moves = Array(9).fill(null);
+
+		let sqrs = document.querySelectorAll(".square")
+
+		sqrs.forEach((sqr) => {
+			sqr.textContent = "";
+		})
+	}
+
+	const resetBoard = () => {
+		clearBoard();
+	}
+
+	const enableButtonsToPlay = () => {
+		playBtns.forEach((sqr) => {
+			sqr.disabled = false;
+			sqr.addEventListener('click', (e) => {
+				let markedSqr = e.target;
+				display.moveTracker()(markedSqr);
+			})
+		})
+	}
+
+	const disableButtons = () => {
+		console.log("disbles")
+		playBtns.forEach((sqr) => {
+			sqr.disabled = true;
+		})
+	}
+
+	const moveTracker = () => {
+
+		return (markedSqr) => {
+
+			if (markedSqr.textContent != "" ) {
+				return;
+			}
 
 			let curPlayer = _moveCounter % 2 === 0 ? playerX : playerO;
+			if (curPlayer === undefined) {
+				return;
+			}
 			let curMark = curPlayer.getMark();
-
-			moveElem.textContent = curMark;
-
+			markedSqr.textContent = curMark;
 			let curGame = board.moves
-			curGame[moveElem.dataset.key] = curMark;
+			curGame[markedSqr.dataset.key] = curMark;
 
 			let res = checkResult(curGame);
 
 			if(res == true){
-				alert(`${curPlayer.getName()} WON`);
-				_moveCounter = 0;
-				board.moves = Array(9).fill(null);
+				alert(`${curPlayer.getName()} WON`);	
 				clearBoard();
 				return;
 			} else if (res == "DRAW") {
-				alert("DRAW!");
-				_moveCounter = 0;
-				board.moves = Array(9).fill(null);
-				clearBoard()
+				alert("DRAW!")
+				clearBoard();
 				return;
 			}
+
 			_moveCounter++;
+
 		}
 	}
-
-	return {counterFunc}
+	return {moveTracker, resetBoard, enableButtonsToPlay, disableButtons}
 })()
 
-var makeMove = displayController.counterFunc();
+var display = displayController;
 
-const playBtns = document.querySelectorAll(".makeMove")
+startGame.addEventListener('click', (e) => {
+	if(playBtns[0].disabled){
+		display.enableButtonsToPlay();
+	}
+	
+	var X = document.getElementById("X").value;
+	var O = document.getElementById("O").value;
+	if (X == "" || O == "") {
+		alert("Enter Name of the Players")
+		return;
+	}
+	playerX = Players(`${X}`, 'X');
+	playerO = Players(`${O}`, 'O');
+})
 
-playBtns.forEach((sqr) => {
-	sqr.addEventListener('click', (e) => {
-		let moveElem = e.target;
-		if (moveElem.textContent != "") {
-			return;
-		}
-		makeMove(moveElem);
-	})
+display.disableButtons();
+
+resetGame.addEventListener('click', (e) => {
+	display.resetBoard();
 })
