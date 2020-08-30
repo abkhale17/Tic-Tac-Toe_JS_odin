@@ -72,7 +72,6 @@ const displayController = (() => {
 	}
 
 	const disableButtons = () => {
-		console.log("disbles")
 		playBtns.forEach((sqr) => {
 			sqr.disabled = true;
 		})
@@ -93,18 +92,29 @@ const displayController = (() => {
 			}
 			let curMark = curPlayer.getMark();
 			markedSqr.textContent = curMark;
+			if(curMark === "X") {
+				markedSqr.style.color = "red"
+			} else {
+				markedSqr.style.color = "green"
+			}
 			let curGame = board.moves
 			curGame[markedSqr.dataset.key] = curMark;
-			document.querySelector(".status").innerHTML =` Next Turn: ${opponentPlayer.getName()} - ${opponentPlayer.getMark()}`
+			document.querySelector(".status").innerHTML =` Next Turn: ${opponentPlayer.getMark()}`
 
 			let res = checkResult(curGame);
 
 			if(res == true){
-				document.querySelector(".status").innerHTML = `Congratulations ${curPlayer.getName()}! You WON`
+				document.querySelector(".status").innerHTML = `Congratulations! ${curPlayer.getName()} WON`;
+				if(curMark === "X") {
+					document.querySelector(".status").style.color = "red"
+				} else {
+					document.querySelector(".status").style.color = "green"
+				}
 				disableButtons()
 				return;
 			} else if (res == "DRAW") {
 				document.querySelector(".status").innerHTML = `Match is DRAWN`
+				document.querySelector(".status").style.color = "orange"
 				disableButtons()
 				return;
 			}
@@ -126,7 +136,8 @@ startGame.addEventListener('click', (e) => {
 	var X = document.getElementById("X").value;
 	var O = document.getElementById("O").value;
 	if (X == "" || O == "") {
-		alert("Enter Name of the Players")
+		document.querySelector(".status").innerHTML = "Enter Name of the Players";
+		alert("Enter Name of the Players");
 		return;
 	}
 	playerX = Players(`${X}`, 'X');
@@ -137,5 +148,16 @@ display.disableButtons();
 
 resetGame.addEventListener('click', (e) => {
 	display.resetBoard();
-	document.querySelector(".status").innerHTML = `Click Start to start the game`
+	document.querySelector(".status").innerHTML = `Click start to play again!`
 })
+
+document.querySelector(".status").innerHTML =` Game Status: Click start to begin!`
+
+var i = 0;
+function change() {
+  var doc = document.getElementById("header");
+  var color = ["magenta", "blue", "brown", "green", "teal", "yellow"];
+  doc.style.color = color[i];
+  i = (i + 1) % color.length;
+}
+setInterval(change, 1000);
