@@ -2,7 +2,7 @@
 
 var startGame = document.getElementById("startGame");
 var resetGame = document.getElementById("resetGame");
-var playBtns = document.querySelectorAll(".makeMove")
+var playBtns = document.querySelectorAll(".makeMove");
 
 const gameBoard = (() => {
 	// private var
@@ -87,23 +87,25 @@ const displayController = (() => {
 			}
 
 			let curPlayer = _moveCounter % 2 === 0 ? playerX : playerO;
-			if (curPlayer === undefined) {
+			let opponentPlayer = _moveCounter % 2 === 0 ? playerO : playerX;
+			if (curPlayer === undefined || opponentPlayer === undefined ) {
 				return;
 			}
 			let curMark = curPlayer.getMark();
 			markedSqr.textContent = curMark;
 			let curGame = board.moves
 			curGame[markedSqr.dataset.key] = curMark;
+			document.querySelector(".status").innerHTML =` Next Turn: ${opponentPlayer.getName()} - ${opponentPlayer.getMark()}`
 
 			let res = checkResult(curGame);
 
 			if(res == true){
-				alert(`${curPlayer.getName()} WON`);	
-				clearBoard();
+				document.querySelector(".status").innerHTML = `Congratulations ${curPlayer.getName()}! You WON`
+				disableButtons()
 				return;
 			} else if (res == "DRAW") {
-				alert("DRAW!")
-				clearBoard();
+				document.querySelector(".status").innerHTML = `Match is DRAWN`
+				disableButtons()
 				return;
 			}
 
@@ -135,4 +137,5 @@ display.disableButtons();
 
 resetGame.addEventListener('click', (e) => {
 	display.resetBoard();
+	document.querySelector(".status").innerHTML = `Click Start to start the game`
 })
