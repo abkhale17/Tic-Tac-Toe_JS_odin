@@ -1,6 +1,6 @@
 # PROJECT: Tic Tac Toe
 
-**See [Tic Tac Toe Game](https://abkhale17.github.io/ic-Tac-Toe_JS_odin/) Online**
+**See [Tic Tac Toe Game](https://abkhale17.github.io/Tic-Tac-Toe_JS_odin/) Online**
 
 > From [The Odin Project](https://www.theodinproject.com/courses/javascript/lessons/tic-tac-toe-javascript) curriculum.
 
