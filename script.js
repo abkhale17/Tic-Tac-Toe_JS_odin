@@ -58,6 +58,7 @@ const displayController = (() => {
 	}
 
 	const resetBoard = () => {
+		enableButtonsToPlay();
 		clearBoard();
 	}
 
@@ -148,7 +149,7 @@ display.disableButtons();
 
 resetGame.addEventListener('click', (e) => {
 	display.resetBoard();
-	document.querySelector(".status").innerHTML = `Click start to play again!`
+	document.querySelector(".status").innerHTML = `Let's Play!`
 })
 
 document.querySelector(".status").innerHTML =` Game Status: Click start to begin!`

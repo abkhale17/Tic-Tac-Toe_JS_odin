@@ -82,14 +82,14 @@ ol, ul {
 
 
 input {
-	border: thin solid;
+	border: thin;
 	padding: 16px 8px; 
 	width: 248px;
 	text-align: center;
 }
 
 #X {
-	border-color: red;
+	/*border-color: red;*/
 	color: red;
 	background-color: #ffe4e4;
 }
@@ -112,12 +112,25 @@ input {
   color: #fff;
 }
 
+#startGame:hover {
+    background-color: #6969c7;
+}
+
 #resetGame {
 	color: #fff;
 	background-color: #fbb940;
 }
 
+#resetGame:hover {
+    background-color: #fdae1d;
+}
+
 #vs {
   text-align: center;
   margin-bottom: 17px;
+}
+
+div#footer {
+  text-align: center;
+  color: #a7a7a7;
 }
